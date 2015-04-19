@@ -18,7 +18,10 @@ MessagePack implementation
 ```js
 <script src="lib/MessagePack.js"></script>
 <script>
-console.log( MessagePack() );
+var source = { ... };
+var packed = MessagePack.encode(source);
+var unpacked = MessagePack.decode(packed);
+
 </script>
 ```
 
@@ -27,7 +30,6 @@ console.log( MessagePack() );
 ```js
 importScripts("lib/MessagePack.js");
 
-console.log( MessagePack() );
 ```
 
 ### Node.js
@@ -35,6 +37,5 @@ console.log( MessagePack() );
 ```js
 require("lib/MessagePack.js");
 
-console.log( MessagePack() );
 ```
 
