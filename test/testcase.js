@@ -1,18 +1,6 @@
 var ModuleTestMessagePack = (function(global) {
 
-var _isNodeOrNodeWebKit = !!global.global;
-var _runOnNodeWebKit =  _isNodeOrNodeWebKit &&  /native/.test(setTimeout);
-var _runOnNode       =  _isNodeOrNodeWebKit && !/native/.test(setTimeout);
-var _runOnWorker     = !_isNodeOrNodeWebKit && "WorkerLocation" in global;
-var _runOnBrowser    = !_isNodeOrNodeWebKit && "document" in global;
-
-global["BENCHMARK"] = true;
-
-if (console) {
-    if (!console.table) {
-        console.table = console.dir;
-    }
-}
+global["BENCHMARK"] = false;
 
 var test = new Test("MessagePack", {
         disable:    false, // disable all tests.
@@ -23,6 +11,10 @@ var test = new Test("MessagePack", {
         button:     true,  // show button.
         both:       true,  // test the primary and secondary modules.
         ignoreError:false, // ignore error.
+        callback:   function() {
+        },
+        errorback:  function(error) {
+        }
     }).add([
         // --- MessagePack ---
         testMessagePack_Nil,
@@ -53,17 +45,22 @@ var test = new Test("MessagePack", {
         testMessagePack_vs_JSON_BenchMark,
     ]);
 
-if (_runOnBrowser || _runOnNodeWebKit) {
-    //test.add([]);
-} else if (_runOnWorker) {
-    //test.add([]);
-} else if (_runOnNode) {
-    //test.add([]);
+if (IN_BROWSER || IN_NW) {
+    test.add([
+        // browser and node-webkit test
+    ]);
+} else if (IN_WORKER) {
+    test.add([
+        // worker test
+    ]);
+} else if (IN_NODE) {
+    test.add([
+        // node.js and io.js test
+    ]);
 }
 
 // --- test cases ------------------------------------------
 function testMessagePack_Nil(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var cases = {
         "null":     MessagePack.decode(MessagePack.encode(null)) === null,
         "undefined":MessagePack.decode(MessagePack.encode(undefined)) == null,
@@ -78,7 +75,6 @@ function testMessagePack_Nil(test, pass, miss) {
     }
 }
 function testMessagePack_Boolean(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var cases = {
         "f_alse":   MessagePack.decode(MessagePack.encode(false)) === false,
         "true":     MessagePack.decode(MessagePack.encode(true)) === true,
@@ -93,7 +89,6 @@ function testMessagePack_Boolean(test, pass, miss) {
     }
 }
 function testMessagePack_Float(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var cases = {
         "-0.0":     MessagePack.decode(MessagePack.encode(-0.0)) === -0.0,
         "+0.0":     MessagePack.decode(MessagePack.encode(+0.0)) === +0.0,
@@ -122,7 +117,6 @@ function testMessagePack_Float(test, pass, miss) {
     }
 }
 function testMessagePack_Uint(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var cases = {
         // FixNum
         "0":    MessagePack.decode(MessagePack.encode(0)) === 0, // [0x00]
@@ -164,7 +158,6 @@ function testMessagePack_Uint(test, pass, miss) {
     }
 }
 function testMessagePack_Int(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var cases = {
         // FixNum
         "-0":           MessagePack.decode(MessagePack.encode(-0)) === -0, // [0x00]
@@ -219,7 +212,6 @@ function testMessagePack_Int(test, pass, miss) {
 }
 
 function testMessagePack_String(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var source = [
         "",
         "Hello",
@@ -244,7 +236,6 @@ function testMessagePack_String(test, pass, miss) {
 }
 
 function testMessagePack_BooleanArray(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
 
     var source = [true, false];
     var packed = MessagePack.encode(source);
@@ -258,7 +249,6 @@ function testMessagePack_BooleanArray(test, pass, miss) {
 }
 
 function testMessagePack_Object(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var source = [
         {}, // [0x80]
         { a: 0, b: 0 },
@@ -300,7 +290,6 @@ function testMessagePack_Object(test, pass, miss) {
 }
 
 function testMessagePack_ObjectAndArray(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var source = { a: [1, 2, 3, { b: 4, c: "hoge" }, "abc"] };
     var packed = MessagePack.encode(source);
     var result = MessagePack.decode(packed);
@@ -318,7 +307,6 @@ function testMessagePack_ObjectAndArray(test, pass, miss) {
 }
 
 function testMessagePack_InvalidTypes(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
 
     try {
         var source = new Date;
@@ -350,7 +338,6 @@ function testMessagePack_InvalidTypes(test, pass, miss) {
 }
 
 function testMessagePack_NaNFloat(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var result = MessagePack.decode(new Uint8Array([0xca, 0x7f, 0xbf, 0xff, 0xff]));
 
     if (isNaN(result)) {
@@ -361,7 +348,6 @@ function testMessagePack_NaNFloat(test, pass, miss) {
 }
 
 function testMessagePack_NaNDouble(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var result = MessagePack.decode(new Uint8Array([0xcb, 0xff, 0xf7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]));
 
     if (isNaN(result)) {
@@ -372,7 +358,6 @@ function testMessagePack_NaNDouble(test, pass, miss) {
 }
 
 function testMessagePack_InfinityFloat(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var result = MessagePack.decode(new Uint8Array([0xca, 0xff, 0x80, 0x00, 0x00]));
 
     if (result === Infinity || result === -Infinity) {
@@ -383,7 +368,6 @@ function testMessagePack_InfinityFloat(test, pass, miss) {
 }
 
 function testMessagePack_InfinityDouble(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var result = MessagePack.decode(new Uint8Array([0xcb, 0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]));
 
     if (result === Infinity || result === -Infinity) {
@@ -394,7 +378,6 @@ function testMessagePack_InfinityDouble(test, pass, miss) {
 }
 
 function testMessagePack_NaN(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var source = NaN;
     var packed = MessagePack.encode(source);
     var result = MessagePack.decode(packed);
@@ -407,7 +390,6 @@ function testMessagePack_NaN(test, pass, miss) {
 }
 
 function testMessagePack_Infinity(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var source = Infinity;
     var packed = MessagePack.encode(source);
     var result = MessagePack.decode(packed);
@@ -420,7 +402,6 @@ function testMessagePack_Infinity(test, pass, miss) {
 }
 
 function testMessagePack_CyclicReferenceError(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var ary = [];
     var cyclicReferenceObject = {
         ary: ary
@@ -457,7 +438,6 @@ function testMessagePack_Bin(test, pass, miss) {
         array0x20FFFF.push(i);
     }
 
-    var MessagePack = Codec.MessagePack;
     var source = [
         new Uint8Array([]),
         new Uint8Array([0, 1, 2, 3, 4, 5, 6, 7]),
@@ -484,7 +464,6 @@ function testMessagePack_Bin(test, pass, miss) {
 }
 
 function testMessagePack_ExtDate(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var options = {};
     var source = [
             new Date(),
@@ -535,7 +514,6 @@ function testMessagePack_ExtFoo(test, pass, miss) {
     };
     global.Foo = Foo;
 
-    var MessagePack = Codec.MessagePack;
     var options = {};
     var source = [
             new Foo(1,2,3)
@@ -578,7 +556,6 @@ function testMessagePack_ExtFoo(test, pass, miss) {
  */
 
 function testMessagePack_vs_JSON_BenchMark(test, pass, miss) {
-    var MessagePack = Codec.MessagePack;
     var random = new Random();
     var options  = { askey: true, ascii: true,  buffer: new Uint8Array(1024 * 1024) }; // 1MB buffer
     var options2 = { askey: true, ascii: false, buffer: new Uint8Array(1024 * 1024) }; // 1MB buffer
@@ -621,9 +598,9 @@ function testMessagePack_vs_JSON_bench(theme, json, nodes, options) {
     }
     function tryMessagePack(json, check, encodeScore, decodeScore, binaryLength) {
         var beginEncode = now();
-        var enc         = Codec.MessagePack.encode(json, options);
+        var enc         = MessagePack.encode(json, options);
         var endEncode   = now();
-        var dec         = Codec.MessagePack.decode(enc, options);
+        var dec         = MessagePack.decode(enc, options);
         var endDecode   = now();
 
         if (check && !Test.likeObject(dec, json)) {
@@ -776,7 +753,7 @@ function _TYPE_FIX_UINT(random, nodes) {
     return result;
 }
 
-return test.run().clone();
+return test.run();
 
-})((this || 0).self || global);
+})(GLOBAL);
 

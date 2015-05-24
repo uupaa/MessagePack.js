@@ -1,0 +1,13 @@
+[
+  {
+    "date": "Sun, 24 May 2015 15:32:10 GMT",
+    "total": {
+      "sloc": 755,
+      "maintainability": 47.4667207102164
+    },
+    "average": {
+      "sloc": 755,
+      "maintainability": "47.47"
+    }
+  }
+]
