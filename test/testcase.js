@@ -241,7 +241,7 @@ function testMessagePack_BooleanArray(test, pass, miss) {
     var packed = MessagePack.encode(source);
     var result = MessagePack.decode(packed);
 
-    if (Test.likeArray(source, result)) {
+    if (_likeArray(source, result)) {
         test.done(pass());
     } else {
         test.done(miss());
@@ -268,15 +268,15 @@ function testMessagePack_Object(test, pass, miss) {
                 //  241, 194, 143, 92, 40, 245, 195]
     ];
     var cases = {
-        "0": Test.likeObject(MessagePack.decode(MessagePack.encode(source[0])), source[0]),
-        "1": Test.likeObject(MessagePack.decode(MessagePack.encode(source[1])), source[1]),
-        "2": Test.likeObject(MessagePack.decode(MessagePack.encode(source[2])), source[2]),
-        "3": Test.likeObject(MessagePack.decode(MessagePack.encode(source[3])), source[3]),
-        "4": Test.likeObject(MessagePack.decode(MessagePack.encode(source[4])), source[4]),
-        "5": Test.likeObject(MessagePack.decode(MessagePack.encode(source[5])), source[5]),
-        "6": Test.likeObject(MessagePack.decode(MessagePack.encode(source[6])), source[6]),
-        "7": Test.likeObject(MessagePack.decode(MessagePack.encode(source[7])), source[7]),
-        "8": Test.likeObject(MessagePack.decode(MessagePack.encode(source[8])), source[8]),
+        "0": _likeObject(MessagePack.decode(MessagePack.encode(source[0])), source[0]),
+        "1": _likeObject(MessagePack.decode(MessagePack.encode(source[1])), source[1]),
+        "2": _likeObject(MessagePack.decode(MessagePack.encode(source[2])), source[2]),
+        "3": _likeObject(MessagePack.decode(MessagePack.encode(source[3])), source[3]),
+        "4": _likeObject(MessagePack.decode(MessagePack.encode(source[4])), source[4]),
+        "5": _likeObject(MessagePack.decode(MessagePack.encode(source[5])), source[5]),
+        "6": _likeObject(MessagePack.decode(MessagePack.encode(source[6])), source[6]),
+        "7": _likeObject(MessagePack.decode(MessagePack.encode(source[7])), source[7]),
+        "8": _likeObject(MessagePack.decode(MessagePack.encode(source[8])), source[8]),
     };
 
     var result = JSON.stringify(cases, null, 2);
@@ -299,7 +299,7 @@ function testMessagePack_ObjectAndArray(test, pass, miss) {
             111, 103, 101, 163, 97, 98, 99
         ];
 
-    if (Test.likeObject(source, result) && Test.likeArray(packed, compare)) {
+    if (_likeObject(source, result) && _likeArray(packed, compare)) {
         test.done(pass());
     } else {
         test.done(miss());
@@ -446,11 +446,11 @@ function testMessagePack_Bin(test, pass, miss) {
         new Uint8Array(array0x20FFFF),
     ];
     var cases = {
-        "0": Test.likeArray(MessagePack.decode(MessagePack.encode(source[0])), source[0]),
-        "1": Test.likeArray(MessagePack.decode(MessagePack.encode(source[1])), source[1]),
-        "2": Test.likeArray(MessagePack.decode(MessagePack.encode(source[2])), source[2]),
-        "3": Test.likeArray(MessagePack.decode(MessagePack.encode(source[3])), source[3]),
-        "4": Test.likeArray(MessagePack.decode(MessagePack.encode(source[4])), source[4]),
+        "0": _likeArray(MessagePack.decode(MessagePack.encode(source[0])), source[0]),
+        "1": _likeArray(MessagePack.decode(MessagePack.encode(source[1])), source[1]),
+        "2": _likeArray(MessagePack.decode(MessagePack.encode(source[2])), source[2]),
+        "3": _likeArray(MessagePack.decode(MessagePack.encode(source[3])), source[3]),
+        "4": _likeArray(MessagePack.decode(MessagePack.encode(source[4])), source[4]),
     };
 
     var result = JSON.stringify(cases, null, 2);
@@ -519,7 +519,7 @@ function testMessagePack_ExtFoo(test, pass, miss) {
             new Foo(1,2,3)
         ];
     var cases = {
-            "0": Test.likeObject(MessagePack.decode(MessagePack.encode(source[0], options), options), source[0]),
+            "0": _likeObject(MessagePack.decode(MessagePack.encode(source[0], options), options), source[0]),
         };
 
     var result = JSON.stringify(cases, null, 2);
@@ -603,7 +603,7 @@ function testMessagePack_vs_JSON_bench(theme, json, nodes, options) {
         var dec         = MessagePack.decode(enc, options);
         var endDecode   = now();
 
-        if (check && !Test.likeObject(dec, json)) {
+        if (check && !_likeObject(dec, json)) {
             console.log("unmatch1");
         }
         encodeScore.push(endEncode - beginEncode);
@@ -618,7 +618,7 @@ function testMessagePack_vs_JSON_bench(theme, json, nodes, options) {
         var dec         = JSON.parse(enc);
         var endDecode   = now();
 
-        if (check && !Test.likeObject(dec, json)) {
+        if (check && !_likeObject(dec, json)) {
             console.log("unmatch2");
         }
         encodeScore.push(endEncode - beginEncode);
@@ -751,6 +751,33 @@ function _TYPE_FIX_UINT(random, nodes) {
         result.push( i % 128 ); // 0 - 127
     }
     return result;
+}
+
+function _likeArray(a,             // @arg TypedArray|Array
+                    b,             // @arg TypedArray|Array
+                    fixedDigits) { // @arg Integer = 0 - floatingNumber.toFixed(fixedDigits)
+                                   // @ret Boolean
+    fixedDigits = fixedDigits || 0;
+    if (a.length !== b.length) {
+        return false;
+    }
+    for (var i = 0, iz = a.length; i < iz; ++i) {
+        if (fixedDigits) {
+            if ( a[i].toFixed(fixedDigits) !== b[i].toFixed(fixedDigits) ) {
+                return false;
+            }
+        } else {
+            if ( a[i] !== b[i] ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function _likeObject(a,   // @arg Object
+                     b) { // @arg Object
+    return JSON.stringify(a) === JSON.stringify(b);
 }
 
 return test.run();
