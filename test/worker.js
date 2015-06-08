@@ -12,10 +12,10 @@ onmessage = function(event) {
         self.console.table = function() {};
     }
 
-    importScripts("../lib/WebModuleGlobal.js");
+    importScripts("../lib/WebModule.js");
 
     importScripts("../node_modules/uupaa.random.js/lib/Random.js");
-    importScripts("../node_modules/uupaa.hash.js/lib/Hash.js");
+    importScripts("../node_modules/uupaa.utf8.js/node_modules/uupaa.hash.js/lib/Hash.js");
     importScripts("../node_modules/uupaa.utf8.js/lib/UTF8.js");
     importScripts("wmtools.js");
     importScripts("../lib/MessagePack.js");

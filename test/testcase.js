@@ -62,8 +62,8 @@ if (IN_BROWSER || IN_NW) {
 // --- test cases ------------------------------------------
 function testMessagePack_Nil(test, pass, miss) {
     var cases = {
-        "null":     MessagePack.decode(MessagePack.encode(null)) === null,
-        "undefined":MessagePack.decode(MessagePack.encode(undefined)) == null,
+        "null":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(null)) === null,
+        "undefined":WebModule.MessagePack.decode(WebModule.MessagePack.encode(undefined)) == null,
     };
     var result = JSON.stringify(cases, null, 2);
     console.log(result);
@@ -76,8 +76,8 @@ function testMessagePack_Nil(test, pass, miss) {
 }
 function testMessagePack_Boolean(test, pass, miss) {
     var cases = {
-        "f_alse":   MessagePack.decode(MessagePack.encode(false)) === false,
-        "true":     MessagePack.decode(MessagePack.encode(true)) === true,
+        "f_alse":   WebModule.MessagePack.decode(WebModule.MessagePack.encode(false)) === false,
+        "true":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(true)) === true,
     };
     var result = JSON.stringify(cases, null, 2);
     console.log(result);
@@ -90,22 +90,22 @@ function testMessagePack_Boolean(test, pass, miss) {
 }
 function testMessagePack_Float(test, pass, miss) {
     var cases = {
-        "-0.0":     MessagePack.decode(MessagePack.encode(-0.0)) === -0.0,
-        "+0.0":     MessagePack.decode(MessagePack.encode(+0.0)) === +0.0,
-        "0.0":      MessagePack.decode(MessagePack.encode(0.0)) === 0.0,
-        "0.1":      MessagePack.decode(MessagePack.encode(0.1)) === 0.1,            // [0xcb, 0x3f, 0xb9, 0x99, 0x99, 0x99, 0x99, 0x99, 0x9a]
-        "0.12":     MessagePack.decode(MessagePack.encode(0.12)) === 0.12,
-        "0.123":    MessagePack.decode(MessagePack.encode(0.123)) === 0.123,
-        "118.625":  MessagePack.decode(MessagePack.encode(118.625)) === 118.625,    // [203, 64, 93, 168, 0, 0, 0, 0, 0]
-        "123.456":  MessagePack.decode(MessagePack.encode(123.456)) === 123.456,    // [0xcb, 0x40, 0x5e, 0xdd, 0x2f, 0x1a, 0x9f, 0xbe, 0x77]
-        "-123.456": MessagePack.decode(MessagePack.encode(-123.456)) === -123.456,  // [0xcb, 0xc0, 0x5e, 0xdd, 0x2f, 0x1a, 0x9f, 0xbe, 0x77]
-        "-0.1":     MessagePack.decode(MessagePack.encode(-0.1)) === -0.1,          // [0xcb, 0xbf, 0xb9, 0x99, 0x99, 0x99, 0x99, 0x99, 0x9a]
-        "1.11":     MessagePack.decode(MessagePack.encode(1.11)) === 1.11,          // [203, 63, 241, 194, 143, 92, 40, 245, 195]
-        "-1.11":    MessagePack.decode(MessagePack.encode(-1.11)) === -1.11,        // [0xcb, 0xbf, 0xf1, 0xc2, 0x8f, 0x5c, 0x28, 0xf5, 0xc3]
+        "-0.0":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(-0.0)) === -0.0,
+        "+0.0":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(+0.0)) === +0.0,
+        "0.0":      WebModule.MessagePack.decode(WebModule.MessagePack.encode(0.0)) === 0.0,
+        "0.1":      WebModule.MessagePack.decode(WebModule.MessagePack.encode(0.1)) === 0.1,            // [0xcb, 0x3f, 0xb9, 0x99, 0x99, 0x99, 0x99, 0x99, 0x9a]
+        "0.12":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(0.12)) === 0.12,
+        "0.123":    WebModule.MessagePack.decode(WebModule.MessagePack.encode(0.123)) === 0.123,
+        "118.625":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(118.625)) === 118.625,    // [203, 64, 93, 168, 0, 0, 0, 0, 0]
+        "123.456":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(123.456)) === 123.456,    // [0xcb, 0x40, 0x5e, 0xdd, 0x2f, 0x1a, 0x9f, 0xbe, 0x77]
+        "-123.456": WebModule.MessagePack.decode(WebModule.MessagePack.encode(-123.456)) === -123.456,  // [0xcb, 0xc0, 0x5e, 0xdd, 0x2f, 0x1a, 0x9f, 0xbe, 0x77]
+        "-0.1":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(-0.1)) === -0.1,          // [0xcb, 0xbf, 0xb9, 0x99, 0x99, 0x99, 0x99, 0x99, 0x9a]
+        "1.11":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(1.11)) === 1.11,          // [203, 63, 241, 194, 143, 92, 40, 245, 195]
+        "-1.11":    WebModule.MessagePack.decode(WebModule.MessagePack.encode(-1.11)) === -1.11,        // [0xcb, 0xbf, 0xf1, 0xc2, 0x8f, 0x5c, 0x28, 0xf5, 0xc3]
         "3.14159565358979":
-                    MessagePack.decode(MessagePack.encode(3.14159565358979)) === 3.14159565358979,   // [0xcb, 0x40, 0x09, 0x21, 0xfc, 0xe6, 0xeb, 0x64, 0x22]
+                    WebModule.MessagePack.decode(WebModule.MessagePack.encode(3.14159565358979)) === 3.14159565358979,   // [0xcb, 0x40, 0x09, 0x21, 0xfc, 0xe6, 0xeb, 0x64, 0x22]
         "-3.14159565358979":
-                    MessagePack.decode(MessagePack.encode(-3.14159565358979)) === -3.14159565358979, // [0xcb, 0xc0, 0x09, 0x21, 0xfc, 0xe6, 0xeb, 0x64, 0x22]
+                    WebModule.MessagePack.decode(WebModule.MessagePack.encode(-3.14159565358979)) === -3.14159565358979, // [0xcb, 0xc0, 0x09, 0x21, 0xfc, 0xe6, 0xeb, 0x64, 0x22]
     };
     var result = JSON.stringify(cases, null, 2);
     console.log(result);
@@ -119,31 +119,31 @@ function testMessagePack_Float(test, pass, miss) {
 function testMessagePack_Uint(test, pass, miss) {
     var cases = {
         // FixNum
-        "0":    MessagePack.decode(MessagePack.encode(0)) === 0, // [0x00]
-        "1":    MessagePack.decode(MessagePack.encode(1)) === 1, // [0x01]
-        "31":   MessagePack.decode(MessagePack.encode(31)) === 31, // [0x1f]
-        "32":   MessagePack.decode(MessagePack.encode(32)) === 32, // [0x20]
-        "33":   MessagePack.decode(MessagePack.encode(33)) === 33, // [0x21]
-        "126":  MessagePack.decode(MessagePack.encode(126)) === 126, // [0x7e]
-        "127":  MessagePack.decode(MessagePack.encode(127)) === 127, // [0x7f]
+        "0":    WebModule.MessagePack.decode(WebModule.MessagePack.encode(0)) === 0, // [0x00]
+        "1":    WebModule.MessagePack.decode(WebModule.MessagePack.encode(1)) === 1, // [0x01]
+        "31":   WebModule.MessagePack.decode(WebModule.MessagePack.encode(31)) === 31, // [0x1f]
+        "32":   WebModule.MessagePack.decode(WebModule.MessagePack.encode(32)) === 32, // [0x20]
+        "33":   WebModule.MessagePack.decode(WebModule.MessagePack.encode(33)) === 33, // [0x21]
+        "126":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(126)) === 126, // [0x7e]
+        "127":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(127)) === 127, // [0x7f]
         // Uint8
-        "128":  MessagePack.decode(MessagePack.encode(128)) === 128, // [0xcc, 0x80]
-        "129":  MessagePack.decode(MessagePack.encode(129)) === 129, // [0xcc, 0x81]
-        "254":  MessagePack.decode(MessagePack.encode(254)) === 254, // [0xcc, 0xfe]
-        "255":  MessagePack.decode(MessagePack.encode(255)) === 255, // [0xcc, 0xff]
+        "128":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(128)) === 128, // [0xcc, 0x80]
+        "129":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(129)) === 129, // [0xcc, 0x81]
+        "254":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(254)) === 254, // [0xcc, 0xfe]
+        "255":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(255)) === 255, // [0xcc, 0xff]
         // Uint16
-        "256":  MessagePack.decode(MessagePack.encode(256)) === 256, // [0xcd, 0x1, 0x0]
-        "257":  MessagePack.decode(MessagePack.encode(257)) === 257, // [0xcd, 0x1, 0x1]
-        "65534":MessagePack.decode(MessagePack.encode(65534)) === 65534, // [0xcd, 0xff, 0xfe]
-        "65535":MessagePack.decode(MessagePack.encode(65535)) === 65535, // [0xcd, 0xff, 0xff]
+        "256":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(256)) === 256, // [0xcd, 0x1, 0x0]
+        "257":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(257)) === 257, // [0xcd, 0x1, 0x1]
+        "65534":WebModule.MessagePack.decode(WebModule.MessagePack.encode(65534)) === 65534, // [0xcd, 0xff, 0xfe]
+        "65535":WebModule.MessagePack.decode(WebModule.MessagePack.encode(65535)) === 65535, // [0xcd, 0xff, 0xff]
         // Uint32
-        "65536":MessagePack.decode(MessagePack.encode(65536)) === 65536, // [0xce, 0x0, 0x1, 0x0, 0x0]
-        "65537":MessagePack.decode(MessagePack.encode(65537)) === 65537, // [0xce, 0x0, 0x1, 0x0, 0x1]
-        "4294967295": MessagePack.decode(MessagePack.encode(4294967295)) === 4294967295, // 0x0ffffffff
+        "65536":WebModule.MessagePack.decode(WebModule.MessagePack.encode(65536)) === 65536, // [0xce, 0x0, 0x1, 0x0, 0x0]
+        "65537":WebModule.MessagePack.decode(WebModule.MessagePack.encode(65537)) === 65537, // [0xce, 0x0, 0x1, 0x0, 0x1]
+        "4294967295": WebModule.MessagePack.decode(WebModule.MessagePack.encode(4294967295)) === 4294967295, // 0x0ffffffff
         // Uint64
-        "4294967296": MessagePack.decode(MessagePack.encode(4294967296)) === 4294967296, // 0x100000000
-        "4294967297": MessagePack.decode(MessagePack.encode(4294967297)) === 4294967297, // 0x100000001
-        "4294967298": MessagePack.decode(MessagePack.encode(4294967298)) === 4294967298, // 0x100000002
+        "4294967296": WebModule.MessagePack.decode(WebModule.MessagePack.encode(4294967296)) === 4294967296, // 0x100000000
+        "4294967297": WebModule.MessagePack.decode(WebModule.MessagePack.encode(4294967297)) === 4294967297, // 0x100000001
+        "4294967298": WebModule.MessagePack.decode(WebModule.MessagePack.encode(4294967298)) === 4294967298, // 0x100000002
         // IEEE754
         "0x80000000000000": true,   // Accuracy problems. IEEE754
         "0x7fffffffffffffff": true, // Accuracy problems. IEEE754
@@ -160,43 +160,43 @@ function testMessagePack_Uint(test, pass, miss) {
 function testMessagePack_Int(test, pass, miss) {
     var cases = {
         // FixNum
-        "-0":           MessagePack.decode(MessagePack.encode(-0)) === -0, // [0x00]
-        "-1":           MessagePack.decode(MessagePack.encode(-1)) === -1, // [0xff]
-        "-31":          MessagePack.decode(MessagePack.encode(-31)) === -31, // [0xe1]
+        "-0":           WebModule.MessagePack.decode(WebModule.MessagePack.encode(-0)) === -0, // [0x00]
+        "-1":           WebModule.MessagePack.decode(WebModule.MessagePack.encode(-1)) === -1, // [0xff]
+        "-31":          WebModule.MessagePack.decode(WebModule.MessagePack.encode(-31)) === -31, // [0xe1]
         // Int8
-        "-32":          MessagePack.decode(MessagePack.encode(-32)) === -32, // [0xe0]
-        "-33":          MessagePack.decode(MessagePack.encode(-33)) === -33, // [0xd0, 0xdf]
-        "-64":          MessagePack.decode(MessagePack.encode(-64)) === -64, // [0xd0, 0xc0]
-        "-126":         MessagePack.decode(MessagePack.encode(-126)) === -126, // [0xd0, 0x82]
-        "-127":         MessagePack.decode(MessagePack.encode(-127)) === -127, // [0xd0, 0x81]
+        "-32":          WebModule.MessagePack.decode(WebModule.MessagePack.encode(-32)) === -32, // [0xe0]
+        "-33":          WebModule.MessagePack.decode(WebModule.MessagePack.encode(-33)) === -33, // [0xd0, 0xdf]
+        "-64":          WebModule.MessagePack.decode(WebModule.MessagePack.encode(-64)) === -64, // [0xd0, 0xc0]
+        "-126":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-126)) === -126, // [0xd0, 0x82]
+        "-127":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-127)) === -127, // [0xd0, 0x81]
         // Int16
-        "-128":         MessagePack.decode(MessagePack.encode(-128)) === -128, // [0xd1, 0xff, 0x80]
-        "-129":         MessagePack.decode(MessagePack.encode(-129)) === -129, // [0xd1, 0xff, 0x7f]
-        "-254":         MessagePack.decode(MessagePack.encode(-254)) === -254, // [0xd1, 0xff, 0x02]
-        "-255":         MessagePack.decode(MessagePack.encode(-255)) === -255, // [0xd1, 0xff, 0x01]
+        "-128":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-128)) === -128, // [0xd1, 0xff, 0x80]
+        "-129":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-129)) === -129, // [0xd1, 0xff, 0x7f]
+        "-254":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-254)) === -254, // [0xd1, 0xff, 0x02]
+        "-255":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-255)) === -255, // [0xd1, 0xff, 0x01]
         // Int16
-        "-256":         MessagePack.decode(MessagePack.encode(-256)) === -256, // [0xd1, 0xff, 0x00]
-        "-257":         MessagePack.decode(MessagePack.encode(-257)) === -257, // [0xd1, 0xfe, 0xff]
-        "-32767":       MessagePack.decode(MessagePack.encode(-32767)) === -32767, // [0xd1, 0x80, 0x01]
-        "-32768":       MessagePack.decode(MessagePack.encode(-32768)) === -32768, // [0xd2, 0xff, 0xff, 0x80, 0x00]
-        "-32769":       MessagePack.decode(MessagePack.encode(-32769)) === -32769, // [0xd2, 0xff, 0xff, 0x7f, 0xff]
-        "-65534":       MessagePack.decode(MessagePack.encode(-65534)) === -65534, // [0xd2, 0xff, 0xff, 0x00, 0x02]
-        "-65535":       MessagePack.decode(MessagePack.encode(-65535)) === -65535, // [0xd2, 0xff, 0xff, 0x00, 0x01]
+        "-256":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-256)) === -256, // [0xd1, 0xff, 0x00]
+        "-257":         WebModule.MessagePack.decode(WebModule.MessagePack.encode(-257)) === -257, // [0xd1, 0xfe, 0xff]
+        "-32767":       WebModule.MessagePack.decode(WebModule.MessagePack.encode(-32767)) === -32767, // [0xd1, 0x80, 0x01]
+        "-32768":       WebModule.MessagePack.decode(WebModule.MessagePack.encode(-32768)) === -32768, // [0xd2, 0xff, 0xff, 0x80, 0x00]
+        "-32769":       WebModule.MessagePack.decode(WebModule.MessagePack.encode(-32769)) === -32769, // [0xd2, 0xff, 0xff, 0x7f, 0xff]
+        "-65534":       WebModule.MessagePack.decode(WebModule.MessagePack.encode(-65534)) === -65534, // [0xd2, 0xff, 0xff, 0x00, 0x02]
+        "-65535":       WebModule.MessagePack.decode(WebModule.MessagePack.encode(-65535)) === -65535, // [0xd2, 0xff, 0xff, 0x00, 0x01]
         // Int32
-        "-65536":       MessagePack.decode(MessagePack.encode(-65536)) === -65536, // [0xd2, 0xff, 0xff, 0x00, 0x00]
-        "-65537":       MessagePack.decode(MessagePack.encode(-65537)) === -65537, // [0xd2, 0xff, 0xfe, 0xff, 0xff]
-        "-1048576":     MessagePack.decode(MessagePack.encode(-1048576)) === -1048576, // [0xd2, 0xff, 0xf0, 0x00, 0x00]
-        "-2147483646":  MessagePack.decode(MessagePack.encode(-2147483646)) === -2147483646, // [0xd2, 0x80, 0x00, 0x00, 0x02]
-        "-2147483647":  MessagePack.decode(MessagePack.encode(-2147483647)) === -2147483647, // [0xd2, 0x80, 0x00, 0x00, 0x01]
+        "-65536":       WebModule.MessagePack.decode(WebModule.MessagePack.encode(-65536)) === -65536, // [0xd2, 0xff, 0xff, 0x00, 0x00]
+        "-65537":       WebModule.MessagePack.decode(WebModule.MessagePack.encode(-65537)) === -65537, // [0xd2, 0xff, 0xfe, 0xff, 0xff]
+        "-1048576":     WebModule.MessagePack.decode(WebModule.MessagePack.encode(-1048576)) === -1048576, // [0xd2, 0xff, 0xf0, 0x00, 0x00]
+        "-2147483646":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-2147483646)) === -2147483646, // [0xd2, 0x80, 0x00, 0x00, 0x02]
+        "-2147483647":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-2147483647)) === -2147483647, // [0xd2, 0x80, 0x00, 0x00, 0x01]
         // Int64
-        "-2147483648":  MessagePack.decode(MessagePack.encode(-2147483648)) === -2147483648, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x80, 0x00, 0x00, 0x00]
-        "-4294967293":  MessagePack.decode(MessagePack.encode(-4294967293)) === -4294967293, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x03]
-        "-4294967294":  MessagePack.decode(MessagePack.encode(-4294967294)) === -4294967294, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x02]
-        "-4294967295":  MessagePack.decode(MessagePack.encode(-4294967295)) === -4294967295, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x01] -4294967295(-0x0ffffffff)
-        "-4294967296":  MessagePack.decode(MessagePack.encode(-4294967296)) === -4294967296, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00] -4294967296(-0x100000000)
-        "-4294967297":  MessagePack.decode(MessagePack.encode(-4294967297)) === -4294967297, // [0xd3, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0xff, 0xff] -4294967297(-0x100000001)
-        "-4294967298":  MessagePack.decode(MessagePack.encode(-4294967298)) === -4294967298, // [0xd3, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0xff, 0xfe] -4294967298(-0x100000002)
-        "-549755813888":MessagePack.decode(MessagePack.encode(-549755813888)) === -549755813888, // [0xd3, 0xff, 0xff, 0xff, 0x80, 0x00, 0x00, 0x00, 0x00]
+        "-2147483648":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-2147483648)) === -2147483648, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x80, 0x00, 0x00, 0x00]
+        "-4294967293":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-4294967293)) === -4294967293, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x03]
+        "-4294967294":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-4294967294)) === -4294967294, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x02]
+        "-4294967295":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-4294967295)) === -4294967295, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x01] -4294967295(-0x0ffffffff)
+        "-4294967296":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-4294967296)) === -4294967296, // [0xd3, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00] -4294967296(-0x100000000)
+        "-4294967297":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-4294967297)) === -4294967297, // [0xd3, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0xff, 0xff] -4294967297(-0x100000001)
+        "-4294967298":  WebModule.MessagePack.decode(WebModule.MessagePack.encode(-4294967298)) === -4294967298, // [0xd3, 0xff, 0xff, 0xff, 0xfe, 0xff, 0xff, 0xff, 0xfe] -4294967298(-0x100000002)
+        "-549755813888":WebModule.MessagePack.decode(WebModule.MessagePack.encode(-549755813888)) === -549755813888, // [0xd3, 0xff, 0xff, 0xff, 0x80, 0x00, 0x00, 0x00, 0x00]
         "-0x1fffffffffffff": true, // IEEE754
         "-0x20000000000000": true, // IEEE754
         "-0x40000000000000": true, // IEEE754
@@ -219,10 +219,10 @@ function testMessagePack_String(test, pass, miss) {
         "焼き肉もいいですね。カルビx3, ハラミx2, ブタバラ, T-BORNx500g, ライス大盛りで",
     ];
     var cases = {
-        "0": MessagePack.decode(MessagePack.encode(source[0])) === source[0],
-        "1": MessagePack.decode(MessagePack.encode(source[1])) === source[1],
-        "2": MessagePack.decode(MessagePack.encode(source[2])) === source[2],
-        "3": MessagePack.decode(MessagePack.encode(source[3])) === source[3],
+        "0": WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[0])) === source[0],
+        "1": WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[1])) === source[1],
+        "2": WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[2])) === source[2],
+        "3": WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[3])) === source[3],
     };
 
     var result = JSON.stringify(cases, null, 2);
@@ -238,8 +238,8 @@ function testMessagePack_String(test, pass, miss) {
 function testMessagePack_BooleanArray(test, pass, miss) {
 
     var source = [true, false];
-    var packed = MessagePack.encode(source);
-    var result = MessagePack.decode(packed);
+    var packed = WebModule.MessagePack.encode(source);
+    var result = WebModule.MessagePack.decode(packed);
 
     if (_likeArray(source, result)) {
         test.done(pass());
@@ -268,15 +268,15 @@ function testMessagePack_Object(test, pass, miss) {
                 //  241, 194, 143, 92, 40, 245, 195]
     ];
     var cases = {
-        "0": _likeObject(MessagePack.decode(MessagePack.encode(source[0])), source[0]),
-        "1": _likeObject(MessagePack.decode(MessagePack.encode(source[1])), source[1]),
-        "2": _likeObject(MessagePack.decode(MessagePack.encode(source[2])), source[2]),
-        "3": _likeObject(MessagePack.decode(MessagePack.encode(source[3])), source[3]),
-        "4": _likeObject(MessagePack.decode(MessagePack.encode(source[4])), source[4]),
-        "5": _likeObject(MessagePack.decode(MessagePack.encode(source[5])), source[5]),
-        "6": _likeObject(MessagePack.decode(MessagePack.encode(source[6])), source[6]),
-        "7": _likeObject(MessagePack.decode(MessagePack.encode(source[7])), source[7]),
-        "8": _likeObject(MessagePack.decode(MessagePack.encode(source[8])), source[8]),
+        "0": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[0])), source[0]),
+        "1": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[1])), source[1]),
+        "2": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[2])), source[2]),
+        "3": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[3])), source[3]),
+        "4": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[4])), source[4]),
+        "5": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[5])), source[5]),
+        "6": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[6])), source[6]),
+        "7": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[7])), source[7]),
+        "8": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[8])), source[8]),
     };
 
     var result = JSON.stringify(cases, null, 2);
@@ -291,8 +291,8 @@ function testMessagePack_Object(test, pass, miss) {
 
 function testMessagePack_ObjectAndArray(test, pass, miss) {
     var source = { a: [1, 2, 3, { b: 4, c: "hoge" }, "abc"] };
-    var packed = MessagePack.encode(source);
-    var result = MessagePack.decode(packed);
+    var packed = WebModule.MessagePack.encode(source);
+    var result = WebModule.MessagePack.decode(packed);
     var compare = [
             129, 161, 97, 149, 1, 2, 3, 130,
             161, 98, 4, 161, 99, 164, 104,
@@ -310,8 +310,8 @@ function testMessagePack_InvalidTypes(test, pass, miss) {
 
     try {
         var source = new Date;
-        var packed = MessagePack.encode(source, { pack:   null });
-        var result = MessagePack.decode(packed, { unpack: null });
+        var packed = WebModule.MessagePack.encode(source, { pack:   null });
+        var result = WebModule.MessagePack.decode(packed, { unpack: null });
 
         test.done(miss());
     } catch (o_o) {
@@ -319,16 +319,16 @@ function testMessagePack_InvalidTypes(test, pass, miss) {
 
     try {
         var source = function hoge() {};
-        var packed = MessagePack.encode(source);
-        var result = MessagePack.decode(packed);
+        var packed = WebModule.MessagePack.encode(source);
+        var result = WebModule.MessagePack.decode(packed);
 
     } catch (o_o) {
     }
 
     try {
         var source = /^aaa/;
-        var packed = MessagePack.encode(source);
-        var result = MessagePack.decode(packed);
+        var packed = WebModule.MessagePack.encode(source);
+        var result = WebModule.MessagePack.decode(packed);
 
         test.done(miss());
     } catch (o_o) {
@@ -338,7 +338,7 @@ function testMessagePack_InvalidTypes(test, pass, miss) {
 }
 
 function testMessagePack_NaNFloat(test, pass, miss) {
-    var result = MessagePack.decode(new Uint8Array([0xca, 0x7f, 0xbf, 0xff, 0xff]));
+    var result = WebModule.MessagePack.decode(new Uint8Array([0xca, 0x7f, 0xbf, 0xff, 0xff]));
 
     if (isNaN(result)) {
         test.done(pass());
@@ -348,7 +348,7 @@ function testMessagePack_NaNFloat(test, pass, miss) {
 }
 
 function testMessagePack_NaNDouble(test, pass, miss) {
-    var result = MessagePack.decode(new Uint8Array([0xcb, 0xff, 0xf7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]));
+    var result = WebModule.MessagePack.decode(new Uint8Array([0xcb, 0xff, 0xf7, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff]));
 
     if (isNaN(result)) {
         test.done(pass());
@@ -358,7 +358,7 @@ function testMessagePack_NaNDouble(test, pass, miss) {
 }
 
 function testMessagePack_InfinityFloat(test, pass, miss) {
-    var result = MessagePack.decode(new Uint8Array([0xca, 0xff, 0x80, 0x00, 0x00]));
+    var result = WebModule.MessagePack.decode(new Uint8Array([0xca, 0xff, 0x80, 0x00, 0x00]));
 
     if (result === Infinity || result === -Infinity) {
         test.done(pass());
@@ -368,7 +368,7 @@ function testMessagePack_InfinityFloat(test, pass, miss) {
 }
 
 function testMessagePack_InfinityDouble(test, pass, miss) {
-    var result = MessagePack.decode(new Uint8Array([0xcb, 0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]));
+    var result = WebModule.MessagePack.decode(new Uint8Array([0xcb, 0xff, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]));
 
     if (result === Infinity || result === -Infinity) {
         test.done(pass());
@@ -379,8 +379,8 @@ function testMessagePack_InfinityDouble(test, pass, miss) {
 
 function testMessagePack_NaN(test, pass, miss) {
     var source = NaN;
-    var packed = MessagePack.encode(source);
-    var result = MessagePack.decode(packed);
+    var packed = WebModule.MessagePack.encode(source);
+    var result = WebModule.MessagePack.decode(packed);
 
     if (isNaN(result)) {
         test.done(pass());
@@ -391,8 +391,8 @@ function testMessagePack_NaN(test, pass, miss) {
 
 function testMessagePack_Infinity(test, pass, miss) {
     var source = Infinity;
-    var packed = MessagePack.encode(source);
-    var result = MessagePack.decode(packed);
+    var packed = WebModule.MessagePack.encode(source);
+    var result = WebModule.MessagePack.decode(packed);
 
     if (result === Infinity) {
         test.done(pass());
@@ -409,7 +409,7 @@ function testMessagePack_CyclicReferenceError(test, pass, miss) {
     ary[0] = cyclicReferenceObject;
 
     try {
-        var packed = MessagePack.encode(cyclicReferenceObject);
+        var packed = WebModule.MessagePack.encode(cyclicReferenceObject);
 
         test.done(miss());
 
@@ -446,11 +446,11 @@ function testMessagePack_Bin(test, pass, miss) {
         new Uint8Array(array0x20FFFF),
     ];
     var cases = {
-        "0": _likeArray(MessagePack.decode(MessagePack.encode(source[0])), source[0]),
-        "1": _likeArray(MessagePack.decode(MessagePack.encode(source[1])), source[1]),
-        "2": _likeArray(MessagePack.decode(MessagePack.encode(source[2])), source[2]),
-        "3": _likeArray(MessagePack.decode(MessagePack.encode(source[3])), source[3]),
-        "4": _likeArray(MessagePack.decode(MessagePack.encode(source[4])), source[4]),
+        "0": _likeArray(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[0])), source[0]),
+        "1": _likeArray(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[1])), source[1]),
+        "2": _likeArray(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[2])), source[2]),
+        "3": _likeArray(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[3])), source[3]),
+        "4": _likeArray(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[4])), source[4]),
     };
 
     var result = JSON.stringify(cases, null, 2);
@@ -469,7 +469,7 @@ function testMessagePack_ExtDate(test, pass, miss) {
             new Date(),
         ];
     var cases = {
-            "0": _likeDate(MessagePack.decode(MessagePack.encode(source[0], options), options), source[0]),
+            "0": _likeDate(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[0], options), options), source[0]),
         };
 
     var result = JSON.stringify(cases, null, 2);
@@ -519,7 +519,7 @@ function testMessagePack_ExtFoo(test, pass, miss) {
             new Foo(1,2,3)
         ];
     var cases = {
-            "0": _likeObject(MessagePack.decode(MessagePack.encode(source[0], options), options), source[0]),
+            "0": _likeObject(WebModule.MessagePack.decode(WebModule.MessagePack.encode(source[0], options), options), source[0]),
         };
 
     var result = JSON.stringify(cases, null, 2);
@@ -556,7 +556,7 @@ function testMessagePack_ExtFoo(test, pass, miss) {
  */
 
 function testMessagePack_vs_JSON_BenchMark(test, pass, miss) {
-    var random = new Random();
+    var random = new WebModule.Random();
     var options  = { askey: true, ascii: true,  buffer: new Uint8Array(1024 * 1024) }; // 1MB buffer
     var options2 = { askey: true, ascii: false, buffer: new Uint8Array(1024 * 1024) }; // 1MB buffer
     var options3 = { askey: true, ascii: true,  buffer: new Uint8Array(1024 * 1024) }; // 1MB buffer
@@ -598,9 +598,9 @@ function testMessagePack_vs_JSON_bench(theme, json, nodes, options) {
     }
     function tryMessagePack(json, check, encodeScore, decodeScore, binaryLength) {
         var beginEncode = now();
-        var enc         = MessagePack.encode(json, options);
+        var enc         = WebModule.MessagePack.encode(json, options);
         var endEncode   = now();
-        var dec         = MessagePack.decode(enc, options);
+        var dec         = WebModule.MessagePack.decode(enc, options);
         var endDecode   = now();
 
         if (check && !_likeObject(dec, json)) {
