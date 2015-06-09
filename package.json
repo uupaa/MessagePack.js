@@ -1,6 +1,6 @@
 {
   "name": "uupaa.messagepack.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "MessagePack implementation",
   "url": "https://github.com/uupaa/MessagePack.js",
   "keywords": ["MessagePack", "uupaa", "WebModule"],
